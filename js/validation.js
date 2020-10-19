@@ -1,5 +1,5 @@
 //HELPER FUNCTIONS TO CREATE AND HIDE ERROR MESSAGES 
-//these are called from the validation functions
+//these are called from the validation functions below
 //which are in turn called by keyup and submit event listeners in script.js
 
 //create and show error (location,  msg)
