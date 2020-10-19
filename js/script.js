@@ -17,14 +17,14 @@ const showElement = (element) => {
 // hide element to begin
 hideElement(document.querySelector('#other-title'))
 
-//select event listener on change
+//when job title is changed
 document.querySelector('#title').addEventListener('change', (e) => {
     //check if selection === other
     if (e.target.value === 'other'){
-        //display text field
+        //display other text field
         showElement(e.target.nextElementSibling);
     } else {
-        //hide text field
+        //hide other text field
         hideElement(e.target.nextElementSibling);
     }
 });
@@ -102,7 +102,8 @@ const getDayOfActivity = (input) => {
     return day;
 };
 
-//HELPER FUNCTION - reuturns a list of the hours that are active (for example 9am-12pm => [9, 10, 11])
+//HELPER FUNCTION - reuturns a list of the hours that are active 
+//(for example 9am-12pm => [9, 10, 11])
 const getActiveHours = (input) => {
     let hoursString = input.getAttribute('data-day-and-time').split(' ')[1];
     const regEx = /(\d+)\w{2}-(\d+)\w{2}/;
@@ -126,7 +127,7 @@ const costHTML = `
 const activities = document.querySelector('.activities');
 activities.insertAdjacentHTML('afterend', costHTML);
 
-// GLOBAL COST
+// GLOBAL COST variable
 let cost = 0;
 const totalCost = document.querySelector('#totalCost');
 
@@ -142,30 +143,27 @@ for (let i = 0; i < inputs.length; i++){
             totalCost.textContent = cost;
         // else if box is unchecked, add checked attribute
         } else {
+            e.target.setAttribute('checked', true);
             //add to cost
             cost += parseInt(e.target.getAttribute('data-cost'));
             totalCost.textContent = cost;
-            e.target.setAttribute('checked', true);
         }
         
         //only if date and time exist
         if(e.target.hasAttribute('data-day-and-time')){
              //get day of the week for changed box
             const day = getDayOfActivity(e.target);
-
             //gets list hours for changed box
             const hoursActive = getActiveHours(e.target);
-        
+
             //loop through checkboxes and ultimately toggle checkboxes that confilict
             for (let j = 1; j < inputs.length; j++){
                 //get iteration input
                 const input = inputs[j];
-
                 //skip if iteration and target are the same
                 if (input.name === e.target.name){
                     continue;
                 }
-
                 //make sure label has a date and time
                 if (input.hasAttribute('data-day-and-time')){
                     //if our day match this iterations day
@@ -185,7 +183,6 @@ for (let i = 0; i < inputs.length; i++){
                         }
                     }
                 }
-                
             };
         }
     });
@@ -227,7 +224,7 @@ payment.firstElementChild.setAttribute('disabled', true);
 
 //event listeners
 
-//validate on keyup 
+//validate on keyup
 //elements - keyup listeners in text fields - some fields declared in validators.js
 const nameField = document.querySelector('#name').addEventListener('keyup', validateNameField);
 const emailField = document.querySelector('#mail').addEventListener('keyup', validateEmail);
@@ -235,6 +232,7 @@ creditCardField.addEventListener('keyup', validateCreditCard);
 zipField.addEventListener('keyup', validateCreditCard);
 cvvField.addEventListener('keyup', validateCreditCard);
 
+//validate on checkbox change
 //checkbox - node list - declared in validators.js
 checkBoxes.forEach(input => {
     input.addEventListener('change', validateCheckBoxes);
@@ -243,7 +241,6 @@ checkBoxes.forEach(input => {
 //final validation
 //register button
 document.querySelector('button').addEventListener('click', (e) => {
-    console.log('clicked');
     if( validateNameField(e) &&
         validateEmail(e) &&
         validateCheckBoxes(e) && 
@@ -251,6 +248,7 @@ document.querySelector('button').addEventListener('click', (e) => {
             e.preventDefault();
             console.log('successful submit');
             window.location.reload(false); 
+        //call validation again to display errors
         } else {
             e.preventDefault();
             validateNameField(e);
