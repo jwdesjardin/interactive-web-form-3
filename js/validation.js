@@ -14,7 +14,6 @@ const createError = (location, message) => {
         //insert before location given as parameter
         location.parentElement.insertBefore(errorMessage, location);
     }
-    
 }
 
 //clear error (location)
@@ -26,40 +25,62 @@ const clearError = (location) => {
 }
 
 
-//VALIDATE name - cant be blank
+//VALIDATE name - cant be blank, contain numbers, spaces or be greater than 12 characters
 const validateNameField = (e) => {
     // get current name
     const nameField = document.querySelector('#name');
 
     //validate name
     if (nameField.value === ''){
+        clearError(nameField);
         createError(nameField, '* Please enter a name');
         return false;
-    } else {
+    }
+    if (nameField.value.search(/\d/) != -1){
+        clearError(nameField);
+        createError(nameField, '* Name cannot contain numbers');
+        return false;
+    }
+    if (nameField.value.search(/\s/) != -1){
+        clearError(nameField);
+        createError(nameField, '* Name cannot contain spaces');
+        return false;
+    }
+    if (nameField.value.length > 12){
+        clearError(nameField);
+        createError(nameField, '* Name cannot be more than 12 characters');
+        return false;
+    }
+     else {
         clearError(nameField);
         return true;
     }
-
 }
 
 //validate email two groups of a-z, -, _ characters separated by one @ symbol.
 // followed by a '.' and 2-5 characters
 const validateEmail = (e) => {
+    
     // get current name
     const emailField = document.querySelector('#mail');
 
     //Email RegExp
-    const emailRegExp = /^[\w-_]+@[\w-_]+\.[\w]{2,5}$/; 
+    const emailRegExp = /^[\w-_]+@[\w-_]+\.[\w]{3}$/; 
 
     //validate email
+    if(emailField.value === ''){
+        clearError(emailField);
+        createError(emailField, '* Email is empty');
+        return false;
+    }
     if (!emailRegExp.test(emailField.value)){
+        clearError(emailField);
         createError(emailField, '* Please enter a valid email');
         return false;
     } else {
         clearError(emailField);
         return true;
     }
-
 }
 
 // get all checkbox inputs

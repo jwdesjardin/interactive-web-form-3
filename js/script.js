@@ -1,35 +1,33 @@
 // on dom load focus first input and update color options in tshirts
 window.addEventListener('DOMContentLoaded', (e) => {
     document.querySelector('#name').focus();
-    displayColors('default');
-})
+    displayColors('unselected');
+});
 
-// text field utilities
+// hide job role element to begin
+document.querySelector('#other-title').style.display = 'none';
 
-const hideElement = (element) => {
-    element.style.display = 'none';
-}
-// display field function
-const showElement = (element) => {
-    element.style.display = 'block';
-}    
+//TOTAL COST SECTION
+const costHTML = `<h2>Total Cost: $<span id='totalCost'>0</span></h2>`;
+const activities = document.querySelector('.activities');
+activities.insertAdjacentHTML('afterend', costHTML);
+let cost = 0;
+const totalCost = document.querySelector('#totalCost');
 
-// hide element to begin
-hideElement(document.querySelector('#other-title'))
-
-//when job title is changed
+//BASIC INFO AND JOB TITLE
 document.querySelector('#title').addEventListener('change', (e) => {
     //check if selection === other
     if (e.target.value === 'other'){
         //display other text field
-        showElement(e.target.nextElementSibling);
+        e.target.nextElementSibling.style.display = 'block';
+        e.target.nextElementSibling.focus()
     } else {
         //hide other text field
-        hideElement(e.target.nextElementSibling);
+        e.target.nextElementSibling.style.display = 'none';
     }
 });
     
-//TSHIRT OPTIONS
+//TSHIRT SECTION
 
 //add option for the case of no theme selected
 const option = document.createElement('option');
@@ -39,10 +37,16 @@ option.value = 'pleaseSelect';
 option.id = 'empty';
 document.querySelector('div#shirt-colors #color').appendChild(option);
 
-
+//udates DOM to display the correct colors for the theme passed
 const displayColors = (theme) => {
     //gets HTML collection of all option elements
     const options = document.querySelector('div#shirt-colors #color').children;
+
+    if (theme === 'unselected'){
+        document.querySelector("#shirt-colors").classList.add('is-hidden');
+    } else {
+        document.querySelector("#shirt-colors").classList.remove('is-hidden');
+    }
 
     // helper function to display Colors
     const displayCorrectColors = (list) => {
@@ -84,16 +88,9 @@ document.querySelector('#design').addEventListener('change', e => {
 });
 
 
+//ACTIVITIES section
 
-
-//ACTIVITIES
-
-// document.querySelector('.activities').addEventListener('change', (e) => {
-//     if (e.target.parentElement.parentElement === 'fieldset'){
-//         console.log('button checked');
-//     }
-// });
-
+//node list of inputs
 const inputs = document.querySelectorAll('.activities input');
 
 //HELPER FUNCTON returns the day of the week as a string
@@ -119,29 +116,17 @@ const getActiveHours = (input) => {
     return activeHours;
 };
 
-
-//DISPLAY TOTAL COST
-const costHTML = `
-    <h2>Total Cost: $<span id='totalCost'>0</span></h2>
-`;
-const activities = document.querySelector('.activities');
-activities.insertAdjacentHTML('afterend', costHTML);
-
-// GLOBAL COST variable
-let cost = 0;
-const totalCost = document.querySelector('#totalCost');
-
-//ADD EVENT LISTENER TO ALL LABELS
+//add change event listener to all labels
 for (let i = 0; i < inputs.length; i++){
     inputs[i].addEventListener('change', (e) => {
 
-        //if box is checked, remove checked attribute
+        //if box is checked to begin then remove checked attribute
         if (e.target.hasAttribute('checked')){
             e.target.removeAttribute('checked');
             //remove from cost
             cost -= parseInt(e.target.getAttribute('data-cost'));
             totalCost.textContent = cost;
-        // else if box is unchecked, add checked attribute
+        // else if box is unchecked to begin add checked attribute
         } else {
             e.target.setAttribute('checked', true);
             //add to cost
@@ -174,10 +159,13 @@ for (let i = 0; i < inputs.length; i++){
                         if (hoursActive.some(hour => labelHours.includes(hour))) {
                             //if target is checked 
                             if (e.target.hasAttribute('checked')){
-                                //set this input diabled
+                                //CSS class disabled
+                                input.parentElement.classList.add('disabled');
+                                //html atttribute disabled
                                 input.setAttribute('disabled', true);
                             }else {
                                 //remove disable
+                                input.parentElement.classList.remove('disabled');
                                 input.removeAttribute('disabled');
                             }
                         }
@@ -188,12 +176,14 @@ for (let i = 0; i < inputs.length; i++){
     });
 }
 
-//display payments
+
+//PAYMENTS SECTION
 
 const creditCardDiv = document.querySelector('#credit-card');
 const paypalDiv = document.querySelector('#paypal');
 const bitcoinDiv = document.querySelector('#bitcoin'); 
 
+//payment type event listener on change
 payment.addEventListener('change', e => {
     if (e.target.value === "credit card"){
         creditCardDiv.style.display = 'block';
@@ -222,12 +212,15 @@ bitcoinDiv.style.display = 'none';
 //disable default option in payment select
 payment.firstElementChild.setAttribute('disabled', true);
 
-//event listeners
+
+
+
+//EVENT LISTENERS
 
 //validate on keyup
-//elements - keyup listeners in text fields - some fields declared in validators.js
-const nameField = document.querySelector('#name').addEventListener('keyup', validateNameField);
-const emailField = document.querySelector('#mail').addEventListener('keyup', validateEmail);
+//some fields declared in validators.js
+document.querySelector('#name').addEventListener('keyup', validateNameField);
+document.querySelector('#mail').addEventListener('keyup', validateEmail);
 creditCardField.addEventListener('keyup', validateCreditCard);
 zipField.addEventListener('keyup', validateCreditCard);
 cvvField.addEventListener('keyup', validateCreditCard);
@@ -238,8 +231,7 @@ checkBoxes.forEach(input => {
     input.addEventListener('change', validateCheckBoxes);
 });
 
-//final validation
-//register button
+//final validation - event listener on sumbit button
 document.querySelector('button').addEventListener('click', (e) => {
     if( validateNameField(e) &&
         validateEmail(e) &&
