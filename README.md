@@ -3,21 +3,23 @@
 
 The HTML and CSS were forked as part of a [Treehouse TechDegree](https://teamtreehouse.com/techdegree/full-stack-javascript) project.  The Javascript files were written by me.
 
-![Interactive-form-1](./images/proj_3_landscape_1.png)
-![Interactive-form-2](./images/proj_3_landscape_2.png)
-![Interactive-form-3](./images/proj_3_landscape_3.png)
 
 ## DOM Manipulation
 
-In this project I use DOM manipulation to query Elements on the HTML page, to create Elements and insert them in to the HTML page. To remove elements from the HTML page. Also I manipulate DOM element attributes. Head over to the GitHub page to see all the DOM manipulation methods used.
+In this project I use DOM manipulation to query Elements on the HTML page, to create Elements and insert them in to the HTML page. To remove elements from the HTML page. Also I manipulate DOM element attributes. 
+
+![Interactive-form-2](./images/proj_3_landscape_2.png)
 
 ## String Manipulation & RegExp
 
-I use string manipulation and regular expressions to validate user input. Searching user input, replacing user input and testing regular expressions are all used. Head over to the GitHub page to see all the string and ReqExp methods used.
+I use string manipulation and regular expressions to validate user input. Searching user input, replacing user input and testing regular expressions are all used. 
+
+![Interactive-form-1](./images/proj_3_landscape_1.png)
+![Interactive-form-3](./images/proj_3_landscape_3.png)
 
 ## Array Manipulation + ClassList Manipulation
 
-I use array manipulation throughout the project tin partner with DOM manipulation to manipulate Node Lists and to find the correct item in other arrays. I also use classList feature of elements to add and remove classes to them. Head over to the GitHub page to see all the array manipulation methods used.
+I use array manipulation throughout the project tin partner with DOM manipulation to manipulate Node Lists and to find the correct item in other arrays. I also use classList feature of elements to add and remove classes to them. 
 
 ## ES6 JavaScript Methods Used
 
